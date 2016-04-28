@@ -1,0 +1,39 @@
+ext {
+    compileSdkVersion = 23
+    targetSdkVersion = 22
+    minSdkVersion = 21
+
+    buildToolsVersion = '23.0.3'
+}
+
+
+ext.versions = [
+        jetbrainsAnnotations : '15.0',
+
+        autoValue            : '1.2',
+        autoService          : '1.0-rc2',
+        javapoet             : '1.6.1',
+
+        // test dependencies
+        junit                : '4.12',
+        googleCompileTesting : '0.9',
+        googleTruth          : '0.28',
+        commonsLang          : '3.4',
+
+        // profiling dependencies
+        jmh                  : '1.12',
+]
+
+ext.libraries = [
+        jetbrainsAnnotations : 'org.jetbrains:annotations:' + versions.jetbrainsAnnotations,
+
+        autoValue            : 'com.google.auto.value:auto-value:' + versions.autoValue,
+        autoService          : 'com.google.auto.service:auto-service:' + versions.autoService,
+        javapoet             : 'com.squareup:javapoet:' + versions.javapoet,
+
+        // test dependencies
+        junit                : 'junit:junit:' + versions.junit,
+        googleCompileTesting : 'com.google.testing.compile:compile-testing:' + versions.googleCompileTesting,
+        googleTruth          : 'com.google.truth:truth:' + versions.googleTruth,
+        commonsLang          : 'org.apache.commons:commons-lang3:' + versions.commonsLang,
+]
