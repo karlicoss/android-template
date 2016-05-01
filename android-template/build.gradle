@@ -19,3 +19,7 @@ dependencies {
     testCompile libraries.assertJ
     testCompile libraries.robolectric
 }
+
+import com.github.karlicoss.gradlestuff.GradleDemoPlugin
+
+apply plugin: GradleDemoPlugin
