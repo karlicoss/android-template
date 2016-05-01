@@ -12,6 +12,9 @@ ext.versions = [
 
         autoValue            : '1.2',
         autoService          : '1.0-rc2',
+
+        rxJava               : '1.1.3',
+
         javapoet             : '1.6.1',
 
         // test dependencies
@@ -32,6 +35,9 @@ ext.libraries = [
 
         autoValue            : 'com.google.auto.value:auto-value:' + versions.autoValue,
         autoService          : 'com.google.auto.service:auto-service:' + versions.autoService,
+
+        rxJava               : 'io.reactivex:rxjava:' + versions.rxJava,
+
         javapoet             : 'com.squareup:javapoet:' + versions.javapoet,
 
         // test dependencies
