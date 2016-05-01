@@ -15,5 +15,7 @@ android {
 }
 
 dependencies {
-    testCompile 'junit:junit:4.12'
+    testCompile libraries.junit
+    testCompile libraries.assertJ
+    testCompile libraries.robolectric
 }
