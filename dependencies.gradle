@@ -8,6 +8,8 @@ ext {
 
 
 ext.versions = [
+        retrolambda          : '2.3.0',
+
         jetbrainsAnnotations : '15.0',
 
         autoValue            : '1.2',
@@ -31,6 +33,8 @@ ext.versions = [
 ]
 
 ext.libraries = [
+        retrolambda          : 'net.orfjackal.retrolambda:retrolambda:' + versions.retrolambda,
+
         jetbrainsAnnotations : 'org.jetbrains:annotations:' + versions.jetbrainsAnnotations,
 
         autoValue            : 'com.google.auto.value:auto-value:' + versions.autoValue,

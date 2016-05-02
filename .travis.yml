@@ -7,7 +7,7 @@ sudo: false
 
 
 jdk:
-  - oraclejdk7
+  # - oraclejdk7
   - oraclejdk8
 
 
@@ -17,7 +17,6 @@ env:
     - ANDROID_ABI=armeabi-v7a # x86 is not supported yet :(
     - BUILD_TOOLS_VERSION=23.0.3
     - COMPILE_SDK_VERSION=23
-    - JAVA8_HOME=/usr/lib/jvm/java-8-oracle # necessary for Retrolambda
   matrix:
     # - ANDROID_TARGET_VERSION=15
     # - ANDROID_TARGET_VERSION=16
@@ -57,5 +56,6 @@ before_script:
   - android-wait-for-emulator
   # unlock screen:
   - adb shell input keyevent 82
+  # TODO disable animations?
 script:
   - ./gradlew test connectedAndroidTest

@@ -4,7 +4,12 @@ buildscript {
     }
     dependencies {
         classpath 'me.tatarka:gradle-retrolambda:3.2.5'
+
+        // see https://github.com/evant/android-retrolambda-lombok https://github.com/evant/android-retrolambda-lombok
+        classpath 'me.tatarka.retrolambda.projectlombok:lombok.ast:0.2.3.a2'
     }
+    // Exclude the version that the android plugin depends on.
+    configurations.classpath.exclude group: 'com.android.tools.external.lombok'
 }
 
 apply plugin: 'com.android.application'
@@ -24,8 +29,8 @@ android {
     }
 
     compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -35,6 +40,8 @@ dependencies {
     testCompile libraries.junit
     testCompile libraries.assertJ
     testCompile libraries.robolectric
+
+    retrolambdaConfig libraries.retrolambda
 }
 
 retrolambda {
