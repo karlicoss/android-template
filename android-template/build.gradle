@@ -48,6 +48,34 @@ retrolambda {
     defaultMethods true
 }
 
+
+apply plugin: 'findbugs'
+
+task findbugs(type: FindBugs, dependsOn: assembleDebug) {
+    excludeFilter project.rootProject.file('config/findbugs/suppressions.xml')
+
+    ignoreFailures = false
+    effort = 'max'
+    reportLevel = 'low'
+
+    classes = project.fileTree('build/intermediates/classes/')
+    classpath = project.files(project.configurations.testCompile)
+    source = project.files('src')
+
+    reports {
+        xml {
+            enabled = false
+            withMessages = true
+        }
+        // For some reason, only one type report is allowed
+        // If you want to get a human readable report HTML report, just disable XML
+        html {
+            enabled = !xml.enabled
+        }
+    }
+}
+
+
 import com.github.karlicoss.gradlestuff.GradleDemoPlugin
 
 apply plugin: GradleDemoPlugin
