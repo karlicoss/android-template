@@ -21,8 +21,8 @@ ext.versions = [
 
         // test dependencies
         junit                : '4.12',
-        assertJ              : '2.4.1',
-        robolectric          : '3.1-rc1',
+        assertJ              : '2.5.0',
+        robolectric          : '3.1',
 
         googleCompileTesting : '0.9',
         googleTruth          : '0.28',
@@ -47,7 +47,7 @@ ext.libraries = [
         // test dependencies
         junit                : 'junit:junit:' + versions.junit,
         assertJ              : 'org.assertj:assertj-core:' + versions.assertJ,
-        robolectric                   : 'org.robolectric:robolectric:' + versions.robolectric,
+        robolectric          : 'org.robolectric:robolectric:' + versions.robolectric,
 //        robolectricSupport            : 'org.robolectric:shadows-support-v4:' + versions.robolectric,
 //        robolectricHttpClient         : 'org.robolectric:shadows-httpclient:' + versions.robolectric,
 //        robolectricMultiDex           : 'org.robolectric:shadows-multidex:' + versions.robolectric,
