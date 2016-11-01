@@ -30,6 +30,11 @@ ext.versions = [
 
         // profiling dependencies
         jmh                  : '1.12',
+
+
+        // instrumented test dependencies
+        supportTestRules     : '0.4.1',
+        supportEspressoCore  : '2.2.1',
 ]
 
 ext.libraries = [
@@ -56,4 +61,7 @@ ext.libraries = [
         googleCompileTesting : 'com.google.testing.compile:compile-testing:' + versions.googleCompileTesting,
         googleTruth          : 'com.google.truth:truth:' + versions.googleTruth,
         commonsLang          : 'org.apache.commons:commons-lang3:' + versions.commonsLang,
+
+        supportTestRules     : 'com.android.support.test:rules:' + versions.supportTestRules,
+        supportEspressoCore  : 'com.android.support.test.espresso:espresso-core:' + versions.supportEspressoCore,
 ]

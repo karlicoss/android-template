@@ -42,6 +42,10 @@ dependencies {
     testCompile libraries.robolectric
 
     retrolambdaConfig libraries.retrolambda
+
+    androidTestCompile libraries.junit
+    androidTestCompile libraries.supportTestRules
+    androidTestCompile libraries.supportEspressoCore
 }
 
 retrolambda {
