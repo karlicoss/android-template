@@ -17,11 +17,15 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+
+        jackOptions {
+            enabled true
+        }
     }
 
     compileOptions {
-        targetCompatibility JavaVersion.VERSION_1_7
-        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -79,6 +83,9 @@ dependencies {
     checkerFramework "org.checkerframework:checker:${checkerFrameworkVersion}"
     compile "org.checkerframework:checker-qual:${checkerFrameworkVersion}"
     compile 'org.jetbrains:annotations:15.0'
+    compile files('/L/repos/checker-framework/checker/examples/GradleExamples/GradleJava8Example/build/libs/GradleJava8Example-1.0-SNAPSHOT.jar')
+    checkerFrameworkJavac files('/L/repos/checker-framework/checker/examples/GradleExamples/GradleJava8Example/build/libs/GradleJava8Example-1.0-SNAPSHOT.jar')
+    checkerFramework files('/L/repos/checker-framework/checker/examples/GradleExamples/GradleJava8Example/build/libs/GradleJava8Example-1.0-SNAPSHOT.jar')
 }
 
 
@@ -88,16 +95,17 @@ allprojects {
         gradle.projectsEvaluated {
             tasks.withType(JavaCompile).all { JavaCompile compile ->
                 compile.options.compilerArgs = [
-                        '-processor', 'org.checkerframework.checker.nullness.NullnessChecker',
+                        '-processor', 'org.checkerframework.checker.fenum.FenumChecker',
+                        '-Aquals=org.checkerframework.example.FolderId',
                         '-processorpath', "${configurations.checkerFramework.asPath}",
                         // uncomment to turn Checker Framework errors into warnings
                         //'-Awarns',
                         "-Xbootclasspath/p:${configurations.checkerFrameworkAnnotatedJDK.asPath}"
                 ]
-                compile.options.compilerArgs += ['-source', '7', '-target', '7']
+                compile.options.compilerArgs += ['-source', '8', '-target', '8'] // , '-AprintErrorStack']
                 options.bootClasspath = System.getProperty("sun.boot.class.path") + ":" + options.bootClasspath
                 options.bootClasspath = "${configurations.checkerFrameworkJavac.asPath}:" + ":" + options.bootClasspath
-                options.fork = true
+                options.fork = false
                 options.forkOptions.jvmArgs += ["-Xbootclasspath/p:${configurations.checkerFrameworkJavac.asPath}"]
             }
         }
