@@ -2,18 +2,9 @@ buildscript {
     repositories {
         jcenter()
     }
-    dependencies {
-        classpath 'me.tatarka:gradle-retrolambda:3.2.5'
-
-        // see https://github.com/evant/android-retrolambda-lombok https://github.com/evant/android-retrolambda-lombok
-        classpath 'me.tatarka.retrolambda.projectlombok:lombok.ast:0.2.3.a2'
-    }
-    // Exclude the version that the android plugin depends on.
-    configurations.classpath.exclude group: 'com.android.tools.external.lombok'
 }
 
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -29,8 +20,8 @@ android {
     }
 
     compileOptions {
-        targetCompatibility JavaVersion.VERSION_1_8
-        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_7
     }
 }
 
@@ -40,14 +31,7 @@ dependencies {
     testCompile libraries.junit
     testCompile libraries.assertJ
     testCompile libraries.robolectric
-
-    retrolambdaConfig libraries.retrolambda
 }
-
-retrolambda {
-    defaultMethods true
-}
-
 
 apply plugin: 'findbugs'
 
@@ -75,6 +59,50 @@ task findbugs(type: FindBugs, dependsOn: assembleDebug) {
     }
 }
 
+configurations {
+    checkerFrameworkJavac {
+        description = 'a customization of the OpenJDK javac compiler with additional support for type annotations'
+    }
+    checkerFrameworkAnnotatedJDK {
+        description = 'a copy of JDK classes with Checker Framework type qualifers inserted'
+    }
+    checkerFramework {
+        description = 'The Checker Framework: custom pluggable types for Java'
+    }
+}
+
+dependencies {
+    ext.checkerFrameworkVersion = '2.1.5'
+    ext.jdkVersion = JavaVersion.current().isJava7() ? 'jdk7' : 'jdk8'
+    checkerFrameworkAnnotatedJDK "org.checkerframework:${jdkVersion}:${checkerFrameworkVersion}"
+    checkerFrameworkJavac "org.checkerframework:compiler:${checkerFrameworkVersion}"
+    checkerFramework "org.checkerframework:checker:${checkerFrameworkVersion}"
+    compile "org.checkerframework:checker-qual:${checkerFrameworkVersion}"
+    compile 'org.jetbrains:annotations:15.0'
+}
+
+
+def typecheck = project.properties['typecheck'] ?: false
+allprojects {
+    if (typecheck) {
+        gradle.projectsEvaluated {
+            tasks.withType(JavaCompile).all { JavaCompile compile ->
+                compile.options.compilerArgs = [
+                        '-processor', 'org.checkerframework.checker.nullness.NullnessChecker',
+                        '-processorpath', "${configurations.checkerFramework.asPath}",
+                        // uncomment to turn Checker Framework errors into warnings
+                        //'-Awarns',
+                        "-Xbootclasspath/p:${configurations.checkerFrameworkAnnotatedJDK.asPath}"
+                ]
+                compile.options.compilerArgs += ['-source', '7', '-target', '7']
+                options.bootClasspath = System.getProperty("sun.boot.class.path") + ":" + options.bootClasspath
+                options.bootClasspath = "${configurations.checkerFrameworkJavac.asPath}:" + ":" + options.bootClasspath
+                options.fork = true
+                options.forkOptions.jvmArgs += ["-Xbootclasspath/p:${configurations.checkerFrameworkJavac.asPath}"]
+            }
+        }
+    }
+}
 
 import com.github.karlicoss.gradlestuff.GradleDemoPlugin
 
